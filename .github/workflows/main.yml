@@ -2,9 +2,9 @@ name: GCE Connect And Execute Script
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
   
 jobs:
   setup-pull-deploy:
