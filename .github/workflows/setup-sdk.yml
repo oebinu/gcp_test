@@ -1,7 +1,5 @@
 name: setup-gcloud-sdk Unit
 
-
-
 on:
   push:
     branches: [ main ]
