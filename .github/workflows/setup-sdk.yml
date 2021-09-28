@@ -1,4 +1,4 @@
-name: GCP-TEST
+name: GCP-TEST 
 
 on:
   push:
