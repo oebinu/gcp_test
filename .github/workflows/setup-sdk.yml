@@ -1,13 +1,21 @@
 name: setup-gcloud-sdk Unit
+
 on:
   push:
-    paths:
-    - 'setupGcloudSDK/**'
-    - '.github/workflows/setup-gcloud*'
+    branches: [ main ]
   pull_request:
-    paths:
-    - 'setupGcloudSDK/**'
-    - '.github/workflows/setup-gcloud*'
+    branches: [ main ]
+  
+  
+#on:
+#  push:
+#    paths:
+#    - 'setupGcloudSDK/**'
+#    - '.github/workflows/setup-gcloud*'
+#  pull_request:
+#    paths:
+#    - 'setupGcloudSDK/**'
+#    - '.github/workflows/setup-gcloud*'
 
 jobs:
   run:
