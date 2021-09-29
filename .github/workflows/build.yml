@@ -20,6 +20,9 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: gradle
+    
+    - name: TEST
+      run: ls -la
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
