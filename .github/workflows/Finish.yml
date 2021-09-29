@@ -96,6 +96,8 @@ jobs:
 
   job-04:
     needs: [ job-02, job-03 ]
+    name: GKE-Setup & Deploy_Restart
+    
     runs-on: ubuntu-latest
 
     steps:
@@ -111,7 +113,7 @@ jobs:
 
 
       - name: Deploy-Update
-        run: kubectl rollout status deployment/was 
+        run: kubectl rollout restart deployment/was 
 
       - name: get-all
         run: kubectl get all
