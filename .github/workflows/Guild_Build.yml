@@ -22,23 +22,13 @@ jobs:
         distribution: 'adopt'
         cache: gradle
 
-
-  job-02:
-    needs: job-01
-    name: Artifact_Setup
-
-    runs-on: ubuntu-latest
-
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
+
 
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: TEST-02
-      run: |
-          ls -la
-            
 
     - name: Upload war file to artifact
       uses: actions/upload-artifact@v2
