@@ -41,7 +41,7 @@ jobs:
         name: WAR with Gradle
 
     - name: Push_GAR
-      uses: par-tec/docker-push-gar-image@latest
+      uses: par-tec/docker-push-gar-image@v0.0.3
       with:
         image_name: myimage
         image_tag: v1.0.0
