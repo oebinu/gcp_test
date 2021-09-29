@@ -26,7 +26,7 @@ jobs:
     - name: TEST
       run: |
           ls -la
-          ls -la ./my-spring-board/gradlew
+          ls -la ./my-spring-board/
           
 
 #  job-02:
@@ -43,11 +43,12 @@ jobs:
     - name: TEST-02
       run: |
           ls -la
+          ls -la ./my-spring-board
 
           
 
- #   - name: Upload war file to artifact
- #     uses: actions/upload-artifact@v2
- #     with:
- #       name: war-package
- #       path: ./build/libs/*.war
+    - name: Upload war file to artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: war-package
+        path: .my-spring-board/build/libs/*.war
