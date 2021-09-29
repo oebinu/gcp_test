@@ -43,7 +43,7 @@ jobs:
     - name: Push_GAR
       uses: par-tec/docker-push-gar-image@v0.0.3
       with:
-        image_name: myimage
+        image_name: test
         image_tag: v1.0.0
         docker_context: ./
         gar_hostname: us-central1-docker.pkg.dev
