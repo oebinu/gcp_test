@@ -17,7 +17,7 @@ env:
 
 
 jobs:
-  build:
+  Setup_GCP-GKE:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,11 +31,11 @@ jobs:
             service_account_key: ${{ secrets.GCP_SA_KEY }}
             project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: get-credentials
+      - id: get-credentials
         uses: google-github-actions/get-gke-credentials@main
         with:
           cluster_name: $GKE_CLUSTER
-          location: $GKE_ZONE
+          location: us-central1-c
           credentials: ${{ secrets.GCP_SA_KEY }}
 
 
