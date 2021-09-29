@@ -39,9 +39,14 @@ jobs:
         name: WAR with Gradle
         path: ./build/libs/*.war
 
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: war-package
+
         
     - name: TEST
-      run: ls -Rla
+      run: ls -la
 
 
     - name: Login to Docker Hub
@@ -64,5 +69,5 @@ jobs:
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ywd-devops:latest
 
 
-    - name: TEST
+    - name: TEST-R
       run: ls -R
