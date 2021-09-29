@@ -42,8 +42,8 @@ jobs:
 
     - uses: actions/download-artifact@v2
       with:
-        name: war-package
-
+        name: WAR with Gradle
+        
         
     - name: TEST
       run: ls -la
