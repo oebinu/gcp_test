@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  Gradle_Build:
 
     runs-on: ubuntu-latest
 
@@ -25,4 +25,4 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./my-spring-board/gradlew build
