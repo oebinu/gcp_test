@@ -28,17 +28,15 @@ jobs:
           ls -la
           ls -la ./my-spring-board/gradlew
 
+  job-02:
+    needs: job-01
+    name: Artifact_Setup
 
     - name: Grant execute permission for gradlew
       run: chmod +x ./my-spring-board/gradlew
 
     - name: Build with Gradle
       run: ./my-spring-board/gradlew build
-
-
-  job-02:
-    needs: job-01
-    name: Artifact_Setup
 
     - name: Upload war file to artifact
       uses: actions/upload-artifact@v2
