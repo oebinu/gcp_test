@@ -42,11 +42,10 @@ jobs:
     - name: TEST-02
       run: |
           ls -la
-          ls -la ./my-spring-board
             
 
     - name: Upload war file to artifact
       uses: actions/upload-artifact@v2
       with:
-        name: war-package
+        name: WAR with Gradle
         path: ./build/libs/*.war
