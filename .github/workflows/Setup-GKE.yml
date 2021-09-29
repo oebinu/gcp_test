@@ -1,0 +1,36 @@
+name: GKE-TEST
+
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+
+      - name: GCP Github Action
+        uses: google-github-actions/setup-gcloud@master
+        with:
+            service_account_key: ${{ secrets.GCP_SA_KEY }}
+            project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - id: get-credentials
+        uses: google-github-actions/get-gke-credentials@main
+        with:
+          cluster_name: cluster-1
+          location: us-central1-c
+          credentials: ${{ secrets.GCP_SA_KEY }}
+
+      # The KUBECONFIG env var is automatically exported and picked up by kubectl.
+      - id: get-pods
+        run: kubectl get pods
+
+
