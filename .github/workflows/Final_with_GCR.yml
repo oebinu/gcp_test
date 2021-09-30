@@ -1,0 +1,119 @@
+name: CICD-Concept
+
+on: 
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  job-01:
+    name: WAR_Build
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: TEST
+      run: ls -la
+
+
+    - name: Upload war file to artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: WAR with Gradle
+        path: ./build/libs/*.war
+
+
+  job-02:
+    needs: job-01
+    name: Docker_Build
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: WAR with Gradle
+        
+        
+    - name: TEST
+      run: ls -la
+
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        context: ./
+        file: ./Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ywd-devops:latest
+
+  job-03:
+ #   needs: [ job-01, job-02 ]
+    name: GCP-Setup
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+
+      - name: GCP Github Action
+        uses: google-github-actions/setup-gcloud@master
+        with:
+            service_account_key: ${{ secrets.GCP_SA_KEY }}
+            project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+
+  job-04:
+    needs: [ job-02, job-03 ]
+    name: GKE-Setup & Deploy_Restart
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: get-credentials
+        uses: google-github-actions/get-gke-credentials@main
+        with:
+          cluster_name: cluster-1
+          location: us-central1-c
+          credentials: ${{ secrets.GCP_SA_KEY }}
+
+
+      - name: Deploy-Update
+        run: kubectl rollout restart deployment/was 
+
+      - name: get-all
+        run: kubectl get all
