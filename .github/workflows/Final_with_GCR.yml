@@ -42,7 +42,7 @@ jobs:
 
   job-02:
     needs: job-01
-    name: Docker_Build
+    name: GCR_Push
     
     runs-on: ubuntu-latest
 
@@ -53,48 +53,15 @@ jobs:
       with:
         name: WAR with Gradle
         
-        
-    - name: TEST
-      run: ls -la
-
-
-    - name: Login to Docker Hub
-      uses: docker/login-action@v1
+    - name: Build and publish image to GCR
+      uses: carbonchain/action-container-registry@v1.1
       with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Build and push
-      id: docker_build
-      uses: docker/build-push-action@v2
-      with:
-        context: ./
-        file: ./Dockerfile
-        push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ywd-devops:latest
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        dockerfile: ./Dockerfile
+        image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello:world
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
 
   job-03:
- #   needs: [ job-01, job-02 ]
-    name: GCP-Setup
-
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-
-      - name: GCP Github Action
-        uses: google-github-actions/setup-gcloud@master
-        with:
-            service_account_key: ${{ secrets.GCP_SA_KEY }}
-            project_id: ${{ secrets.GCP_PROJECT_ID }}
-
-
-  job-04:
     needs: [ job-02, job-03 ]
     name: GKE-Setup & Deploy_Restart
     
