@@ -62,7 +62,7 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
 
   job-03:
-    needs: [ job-02, job-03 ]
+    needs: [ job-01, job-02 ]
     name: GKE-Setup & Deploy_Restart
     
     runs-on: ubuntu-latest
