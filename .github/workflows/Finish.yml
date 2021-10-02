@@ -77,25 +77,25 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ywd-devops:latest
 
-  job-03:
+#  job-03:
  #   needs: [ job-01, job-02 ]
-    name: GCP-Setup
+#    name: GCP-Setup
 
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
 
 
-      - name: GCP Github Action
-        uses: google-github-actions/setup-gcloud@master
-        with:
-            service_account_key: ${{ secrets.GCP_SA_KEY }}
-            project_id: ${{ secrets.GCP_PROJECT_ID }}
+#      - name: GCP Github Action
+#        uses: google-github-actions/setup-gcloud@master
+#        with:
+#            service_account_key: ${{ secrets.GCP_SA_KEY }}
+#            project_id: ${{ secrets.GCP_PROJECT_ID }}
 
 
   job-04:
-    needs: [ job-02, job-03 ]
+    needs: [ job-02 ]
     name: GKE-Setup & Deploy_Restart
     
     runs-on: ubuntu-latest
